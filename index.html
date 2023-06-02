@@ -40,7 +40,9 @@
 
         let nb = 1  //nb is a the expected number of the next clicked box
 
-        for(let i=1; i<=10; i++){
+        let nbBoxes = prompt("How many boxes?")
+
+        for(let i=1; i<=nbBoxes; i++){
             const newbox = box.cloneNode()
             newbox.innerText = i
             board.appendChild(newbox)
