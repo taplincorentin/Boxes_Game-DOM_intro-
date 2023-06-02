@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="css/style.css">
+    <title>DOM manipulation</title>
+</head>
+<body>
+    
+    <div id="board"></div>
+
+    <script>
+
+        function shuffleChildren(parent){
+            let children = parent.children
+            let i = children.length, k, temp
+            while(--i>0){
+                k= Math.floor(Math.random()*(i+1))
+                temp = children[k]                //Fisher–Yates shuffle
+                children[k] = children[i]
+                parent.appendChild(temp)
+            }
+        }
+
+        const box = document.createElement("div")
+        box.classList.add("box")
+
+        const board = document.querySelector("#board")
+
+        let nb = 1  //nb is a the expected number of the next clicked box
+
+        for(let i=1; i<=10; i++){
+            const newbox = box.cloneNode()
+            newbox.innerText = i
+            board.appendChild(newbox)
+
+            newbox.addEventListener("click", function(){
+                if(i==nb){                                  //checking if it's the right box
+                    newbox.classList.add("box-valid")
+                    if(nb==board.children.length){          //checking if the game is finished
+                        alert("VICTOIRE !")
+                    }
+                    nb++
+                }
+                else if(i>nb){                             //if a wrong new box is clicked: game ends
+                    alert ("Erreur, recommencez !")
+                    nb = 1
+                    board.querySelectorAll(".box-valid").forEach(function(validBox){
+                        validBox.classList.remove("box-valid")
+                    })
+                }
+
+                else{
+                    alert("Case déjà cliquée !")           //alert the user that the box has already been clicked
+                }
+            })
+        }
+
+        shuffleChildren(board)
+
+        
+
+    </script>
+</body>
+</html>
