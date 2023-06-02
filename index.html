@@ -24,6 +24,15 @@
             }
         }
 
+        function showReaction(type, clickedBox){
+            clickedBox.classList.add(type)
+            if(type !== "succes"){                      //give visual reaction to clicked box
+                setTimeout(function(){
+                    clickedBox.classList.remove(type)
+                },800)
+            }
+        }
+
         const box = document.createElement("div")
         box.classList.add("box")
 
@@ -40,12 +49,14 @@
                 if(i==nb){                                  //checking if it's the right box
                     newbox.classList.add("box-valid")
                     if(nb==board.children.length){          //checking if the game is finished
-                        alert("VICTOIRE !")
+                        board.querySelectorAll(".box").forEach(function(box){
+                            showReaction("success", box)
+                        })
                     }
                     nb++
                 }
                 else if(i>nb){                             //if a wrong new box is clicked: game ends
-                    alert ("Erreur, recommencez !")
+                    showReaction("error",newbox)
                     nb = 1
                     board.querySelectorAll(".box-valid").forEach(function(validBox){
                         validBox.classList.remove("box-valid")
@@ -53,7 +64,7 @@
                 }
 
                 else{
-                    alert("Case déjà cliquée !")           //alert the user that the box has already been clicked
+                    showReaction("notice",newbox)          //alert the user that the box has already been clicked
                 }
             })
         }
